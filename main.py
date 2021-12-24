@@ -85,7 +85,7 @@ def fairPlay(e):
 
 
 def tooEarly(e):
-    timerLabel.config(text="You drew too early!")
+    timerLabel.config(text="You drew too early, please wait for the tension to finish playing.")
     targetButton.config(state=DISABLED)
 
 
