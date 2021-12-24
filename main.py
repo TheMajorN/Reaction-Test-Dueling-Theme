@@ -27,6 +27,8 @@ def init():
         displayResult(stop - start)
         t2.start()
         magCount = magCount - 1
+        time.sleep(1)
+        duelEnd()
     else:
         t1.start()
         targetButton.config(state=DISABLED)
@@ -102,10 +104,8 @@ def displayResult(result):
 
 
 def duelEnd():
-    global magCount
     t1 = threading.Thread(target=riffSound)
-    if magCount <= 0:
-        t1.start()
+    t1.start()
 
 
 # =====IMAGES=====
