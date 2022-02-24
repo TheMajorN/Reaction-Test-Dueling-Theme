@@ -3,6 +3,7 @@ import time
 import random
 import playsound as ps
 import threading
+from pygame import mixer
 
 # =====WINDOW CREATION=====
 window = Tk()
@@ -14,6 +15,7 @@ window.geometry("1000x800")
 start = 0
 stop = 0
 magCount = 1
+early = 0
 
 
 # =====BUTTON INITIALIZERS=====
@@ -63,7 +65,8 @@ def gunshotSound():
 
 
 def tensionSound():
-    ps.playsound('sounds/tension.wav')
+    mixer.music.load('sounds/tension.wav')
+    mixer.music.play()
 
 
 def clickSound():
@@ -85,17 +88,23 @@ def fairPlay(e):
 
 
 def tooEarly(e):
-    timerLabel.config(text="You drew too early, please wait for the tension to finish playing.")
+    global early
+    early = 1
+    timerLabel.config(text="You drew too early!")
     targetButton.config(state=DISABLED)
+    mixer.music.stop()
 
 
 def timerStart():
     global start
+    global early
     timerLabel.config(text="Steady...")
     earlyChecker()
     drawButton.bind("<Leave>", fairPlay)
-    timerLabel.config(text="Draw!")
+    if early == 0:
+        timerLabel.config(text="Draw!")
     start = time.time() * 1000
+    early = 0
 
 
 # =====OUTPUTS=====
@@ -141,4 +150,5 @@ killShotLabel.place(x=1050, y=500)
 # =====ACTIONS=====
 drawButton.bind("<Enter>", init2)
 
+mixer.init()
 mainloop()
